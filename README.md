@@ -1,2 +1,0 @@
-# Hajimete_Hackathon
-
