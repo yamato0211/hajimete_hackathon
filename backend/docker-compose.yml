@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  db:
+    container_name: hajimete_db
+    image: postgres:14
+    hostname: db
+    volumes: 
+      - dbdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+  api:
+    container_name: hajimete_api
+    build: 
+      context: .
+      network: host
+    hostname: server
+    ports:
+      - 8000:8000
+    tty: true
+    volumes:
+      - .:/go/src/hajimete
+    depends_on:
+      - db
+  adminer:
+    container_name: hajimete_adminer
+    image: adminer:4.7.5
+    ports:
+      - 8080:8080
+volumes:
+  dbdata: 
+    name: hajimete_volume
