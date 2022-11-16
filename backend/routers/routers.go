@@ -46,6 +46,8 @@ func InitRouter(api *gin.Engine) {
 	v1 := api.Group("api/v1")
 	user_router := v1.Group("/users")
 	InitUserRouter(user_router)
+	post_router := v1.Group("/posts")
+	InitPostRouter(post_router)
 }
 
 func middleware(c *gin.Context) {
