@@ -24,3 +24,10 @@ type User struct {
 	Email        string `json:"email"`
 	PasswordHash string `json:"-"`
 }
+
+type Post struct {
+	Base
+	UserID  string `json:"-"`
+	Content string `json:"content"`
+	User    User   `gorm:"foreignKey:UserID;reference:ID" json:"user"`
+}
