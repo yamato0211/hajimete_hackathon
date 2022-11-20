@@ -31,4 +31,10 @@ type Post struct {
 	Content string `json:"content"`
 	SongUrl string `json:"song_url"`
 	User    User   `gorm:"foreignKey:UserID;reference:ID" json:"user"`
+	LikeUsers []User `gorm:"many2many:likes;" json:"like_users"`
+}
+
+type Like struct {
+	UserID string `gorm:"primaryKey" json:"user_id"`
+	PostID string `gorm:"primaryKey" json:"post_id"`
 }
