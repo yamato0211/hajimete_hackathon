@@ -11,10 +11,8 @@ export default function Home() {
     "https://music.apple.com/jp/album/%E8%8A%B1%E6%9D%9F/1451570468?i=1451570480",
     "https://youtu.be/Gbz2C2gQREI"
   ]
-  const [darkTheme, setDarkTheme] = useState<boolean | undefined>(undefined);
   const [posts, setPosts] = useState<Post[]>([])
   const [content, setContent] = useState<string>("")
-  // const [themeDetail, setThemeDetail] = useState<string>("dark")
   const router = useRouter();
   useLayoutEffect(() => {
     const authCheking = () => {
@@ -38,29 +36,6 @@ export default function Home() {
     getTimeline()
   },[])
 
-  useEffect(() => {
-    if (darkTheme !== undefined) {
-      if (darkTheme) {
-        document.documentElement.setAttribute("data-theme", "dark");
-        window.localStorage.setItem("theme", "dark");
-        //setThemeDetail("light")
-      } else {
-        document.documentElement.removeAttribute("data-theme");
-        window.localStorage.setItem("theme", "light");
-        //setThemeDetail("dark")
-      }
-    }
-  }, [darkTheme]);
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    const initialColorValue = root.style.getPropertyValue(
-      "--initial-color-mode"
-    );
-    // Set initial darkmode to light
-    setDarkTheme(initialColorValue === "dark");
-  }, []);
-
   const handleSubmit = async () => {
     await axios.post("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",
     {
@@ -77,27 +52,15 @@ export default function Home() {
     setContent("")
   }
 
-  const handleToggle = (e: any) => {
-    setDarkTheme(e.target.checked);
-  }
 
   const handleLogout = () => {
     localStorage.removeItem("token")
     router.push("/Signup")
   }
+
   return (
     <div className={styles.container}>
       <h1>Hajimete_Hackthon</h1>
-      <div>
-        <label className="switch">
-          <input
-            type="checkbox"
-            checked={darkTheme}
-            onChange={handleToggle}
-          />
-          <span className="slider"></span>
-        </label>
-      </div>
       <button onClick={handleLogout}>logout</button>
       <ul className={styles.postsWrapper}>
         {
