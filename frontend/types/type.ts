@@ -13,4 +13,5 @@ export interface Post {
     content: string
     song_url: string
     user: User
+    like_users: User[]
 }

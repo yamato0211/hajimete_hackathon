@@ -18,8 +18,17 @@ export default function Home() {
     authCheking()
   },[])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function getTimeline() {
+        await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/users/@me",{
+          headers: {
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        .then((res) => {
+          localStorage.setItem("user_id", res.data.id)
+        })
+        .catch(e => console.log(e))
         await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",{
           headers: {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
