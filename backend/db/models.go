@@ -29,5 +29,6 @@ type Post struct {
 	Base
 	UserID  string `json:"-"`
 	Content string `json:"content"`
+	SongUrl string `json:"song_url"`
 	User    User   `gorm:"foreignKey:UserID;reference:ID" json:"user"`
 }

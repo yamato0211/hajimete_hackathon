@@ -5,8 +5,8 @@ import (
 	"jwt-tutorial/db"
 )
 
-func CreatePost(content string, userID string) (new_post db.Post, err error) {
-	new_post = db.Post{Content: content, UserID: userID}
+func CreatePost(content string, songUrl string, userID string) (new_post db.Post, err error) {
+	new_post = db.Post{Content: content, SongUrl: songUrl, UserID: userID}
 	if err = db.Psql.Create(&new_post).Error; err != nil {
 		return
 	}
