@@ -12,6 +12,7 @@ export default function Home() {
     "https://youtu.be/Gbz2C2gQREI"
   ]
   const [posts, setPosts] = useState<Post[]>([])
+
   const [content, setContent] = useState<string>("")
   const router = useRouter();
   useLayoutEffect(() => {
@@ -52,7 +53,6 @@ export default function Home() {
     setContent("")
   }
 
-
   const handleLogout = () => {
     localStorage.removeItem("token")
     router.push("/Signup")
@@ -76,14 +76,7 @@ export default function Home() {
         }
       </ul>
       <div>
-        <h1>Add New Post</h1>
-        <label>content</label>
-        <input 
-          type="text" 
-          value={content} 
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <button onClick={handleSubmit}>Add!</button>
+
       </div>
       {
         songUrl.map((url,index) => {
