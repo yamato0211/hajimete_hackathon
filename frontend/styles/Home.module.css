@@ -12,7 +12,7 @@
 .postWrapper {
   width: 80%;
   border-bottom: 2px solid black;
-  margin: 0 auto;
+  text-align: center;
 }
 
 .main {
@@ -159,6 +159,15 @@
 }
 .postContent {
   text-align: left;
+}
+
+.center {
+  margin: 0 auto;
+}
+
+.cardWrapper {
+  margin: 0;
+  padding: 20 0;
 }
 
 @media (max-width: 600px) {

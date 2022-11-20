@@ -14,12 +14,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Post } from '../../types/type';
-import styles from "../../styles/Home.module.css"
+import { Post } from '../types/type';
+import styles from "../styles/Home.module.css"
 
-interface Props {
-    post: Post
-}
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -36,7 +33,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export default function ReviewCard(props: Props) {
+const ReviewCard = ({post}: {post: Post}) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -44,18 +41,18 @@ export default function ReviewCard(props: Props) {
   };
 
   return (
-    <Card sx={{ maxWidth: 600 }}>
+    <Card sx={{ maxWidth: 600 }} className={styles.center}>
       <CardHeader
-        title={props.post.user.name}
-        subheader={props.post.created_at.toString()}
+        title={post.user.name}
+        subheader={post.created_at.toString()}
       />
       <div className={styles.aho}>
-        <iframe className={styles.gaki} src={`https://odesli.co/embed/?url=${props.post.song_url}&theme=dark`} frameBorder={0} allowFullScreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write">
+        <iframe className={styles.gaki} src={`https://odesli.co/embed/?url=${post.song_url}&theme=dark`} frameBorder={0} allowFullScreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write">
         </iframe>
       </div>
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          {props.post.content}
+          {post.content}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -106,3 +103,5 @@ export default function ReviewCard(props: Props) {
     </Card>
   );
 }
+
+export default ReviewCard
