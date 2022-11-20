@@ -1,13 +1,13 @@
 package routers
 
 import (
-	"net/http"
 	"jwt-tutorial/cruds"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func initLikeRouter(lr *gin.RouterGroup) {
+func InitLikeRouter(lr *gin.RouterGroup) {
 	lr.Use(middleware)
 	lr.POST("/:post_id", itIsLike)
 	lr.DELETE("/:post_id", itIsNotLike)

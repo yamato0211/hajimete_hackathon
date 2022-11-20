@@ -7,7 +7,7 @@ import (
 
 func GiveLike(postId string, userId string) (post db.Post, err error) {
 	if err = db.Psql.Where("post_id = ? AND user_id = ?", postId, userId).First(&db.Like{}).Error; err == nil {
-		err = errors.New("funny is already exist")
+		err = errors.New("like is already exist")
 		return
 	}
 
@@ -24,7 +24,7 @@ func GiveLike(postId string, userId string) (post db.Post, err error) {
 
 func DeleteLike(postId string, userId string) (post db.Post, err error) {
 	if err = db.Psql.Where("post_id = ? AND user_id = ?", postId, userId).First(&db.Like{}).Error; err != nil {
-		err = errors.New("funny is not found")
+		err = errors.New("like is not found")
 		return
 	}
 

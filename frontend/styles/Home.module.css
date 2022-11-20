@@ -1,6 +1,10 @@
 .container {
-  padding: 0 2rem;
+  margin: 0;
+  padding: 0;
   text-align: center;
+  width: 100%;
+  height: 100%;
+  background-color: aquamarine;
 }
 
 .postsWrapper {
@@ -163,6 +167,7 @@
 
 .center {
   margin: 0 auto;
+  padding: 20 0;
 }
 
 .cardWrapper {
