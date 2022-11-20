@@ -1,10 +1,8 @@
-import * as React from 'react';
+import {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -12,10 +10,26 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const theme = createTheme();
 
 export default function Signin() {
+    const [email,setEmail] = useState<string>("")
+    const [password,setPassword] = useState<string>("")
+    const router = useRouter()
+    const handleSubmit = async() => {
+      await axios.post("https://hajimete-hackathon-backend.onrender.com/api/v1/users/signin",{
+        email: email,
+        password: password
+      })
+      .then(res => localStorage.setItem("token",res.data.jwt))
+      .catch(e => console.log(e))
+      setEmail("")
+      setPassword("")
+      router.push("/")
+    }
     return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -44,6 +58,8 @@ export default function Signin() {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => {setEmail(e.target.value)}}
             />
             <TextField
               margin="normal"
@@ -54,12 +70,14 @@ export default function Signin() {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e) => {setPassword(e.target.value)}}
             />
             <Button
-              type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={handleSubmit}
             >
               Sign In
             </Button>
