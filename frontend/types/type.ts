@@ -11,5 +11,6 @@ export interface Post {
     created_at: Date
     updated_at: Date
     content: string
+    song_url: string
     user: User
 }

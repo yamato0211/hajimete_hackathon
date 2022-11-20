@@ -13,7 +13,6 @@ export default function Home() {
   ]
   const [darkTheme, setDarkTheme] = useState<boolean | undefined>(undefined);
   const [posts, setPosts] = useState<Post[]>([])
-  const [content, setContent] = useState<string>("")
   // const [themeDetail, setThemeDetail] = useState<string>("dark")
   const router = useRouter();
   useLayoutEffect(() => {
@@ -61,22 +60,6 @@ export default function Home() {
     setDarkTheme(initialColorValue === "dark");
   }, []);
 
-  const handleSubmit = async () => {
-    await axios.post("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",
-    {
-      content: content
-    },
-    {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    })
-    .then(res => setPosts([res.data, ...posts]))
-    .catch(e => console.log(e))
-
-    setContent("")
-  }
-
   const handleToggle = (e: any) => {
     setDarkTheme(e.target.checked);
   }
@@ -113,14 +96,7 @@ export default function Home() {
         }
       </ul>
       <div>
-        <h1>Add New Post</h1>
-        <label>content</label>
-        <input 
-          type="text" 
-          value={content} 
-          onChange={(e) => setContent(e.target.value)}
-        />
-        <button onClick={handleSubmit}>Add!</button>
+
       </div>
       {
         songUrl.map((url,index) => {
