@@ -18,7 +18,7 @@ func InitDB() (err error) {
 	if err != nil {
 		return
 	}
-	if err = Psql.AutoMigrate(&User{}, &Post{}); err != nil {
+	if err = Psql.AutoMigrate(&User{}, &Post{}, &Like{}); err != nil {
 		return
 	}
 

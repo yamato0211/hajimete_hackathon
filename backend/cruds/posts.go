@@ -31,3 +31,22 @@ func GetAllPost() (posts []db.Post, err error) {
 	}
 	return
 }
+
+func GetPost(postId string) (post db.Post, err error) {
+	err = db.Psql.First(&post, "id = ?", postId).Error
+	if err != nil {
+		return
+	}
+	var user []db.User
+	err = db.Psql.Model(&post).Association("User").Find(&user)
+	if err != nil {
+		return
+	}
+	post.User = user[0]
+	err = db.Psql.Model(&post).Association("LikeUsers").Find(&user)
+	if err != nil {
+		return
+	}
+	post.LikeUsers = user
+	return
+}
