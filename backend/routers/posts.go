@@ -28,7 +28,7 @@ func createMyPost(c *gin.Context) {
 	}
 
 	c.Bind(&payload)
-	p, err := cruds.CreatePost(payload.Content, userId.(string))
+	p, err := cruds.CreatePost(payload.Content, payload.SongUrl, userId.(string))
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
