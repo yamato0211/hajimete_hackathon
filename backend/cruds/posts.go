@@ -26,8 +26,16 @@ func GetAllPost() (posts []db.Post, err error) {
 	for i, post := range posts {
 		var user []db.User
 		err = db.Psql.Model(&post).Association("User").Find(&user)
+		if err != nil {
+			return
+		}
 		fmt.Println(user)
 		posts[i].User = user[0]
+		err = db.Psql.Model(&post).Association("LikeUsers").Find(&user)
+		if err != nil {
+			return
+		}
+		posts[i].LikeUsers = user
 	}
 	return
 }
