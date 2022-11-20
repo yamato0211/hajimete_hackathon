@@ -3,17 +3,14 @@ import { useRouter } from "next/router"
 import { useState, useLayoutEffect, useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 import { Post } from '../types/type'
+import ReviewCard from "./Components/ReviewCard"
 
 
 export default function Home() {
-  const songUrl = [
-    "https://music.apple.com/jp/album/i-love/1492963534?i=1492963535",
-    "https://music.apple.com/jp/album/%E8%8A%B1%E6%9D%9F/1451570468?i=1451570480",
-    "https://youtu.be/Gbz2C2gQREI"
-  ]
   const [posts, setPosts] = useState<Post[]>([])
 
   const [content, setContent] = useState<string>("")
+  const [songUrl, setSongUrl] = useState<string>("")
   const router = useRouter();
   useLayoutEffect(() => {
     const authCheking = () => {
@@ -40,7 +37,8 @@ export default function Home() {
   const handleSubmit = async () => {
     await axios.post("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",
     {
-      content: content
+      content: content,
+      song_url: songUrl
     },
     {
       headers: {
@@ -51,6 +49,7 @@ export default function Home() {
     .catch(e => console.log(e))
 
     setContent("")
+    setSongUrl("")
   }
 
   const handleLogout = () => {
@@ -64,40 +63,13 @@ export default function Home() {
       <button onClick={handleLogout}>logout</button>
       <ul className={styles.postsWrapper}>
         {
-          posts.map((post) => {
+          posts.map((post,index) => {
             return(
-              <li key={post.id} className={styles.postWrapper}>
-                <p>{post.user.name}</p>
-                <p>{post.created_at.toString()}</p>
-                <p>{post.content}</p>
-              </li>
+              <ReviewCard post={post} key={index}/>
             )
           })
         }
       </ul>
-      <div>
-
-      </div>
-      {
-        songUrl.map((url,index) => {
-          return (
-            <div className={styles.kasu} key={index}>
-              <div className={styles.postDetails}>
-                <div className={styles.NameDate}>
-                  <p className={styles.postName}>name</p>
-                  <p className={styles.postDate}>2022-11-19</p>
-                </div>
-                <p className={styles.postContent}>この曲聞いてみて！！</p>
-              </div>
-              <div className={styles.aho}>
-                <iframe className={styles.gaki} src={`https://odesli.co/embed/?url=${url}&theme=dark`} frameBorder={0} allowFullScreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write">
-                </iframe>
-              </div>
-            </div>
-          )
-        })
-      }
-      
     </div>
   )
 }
