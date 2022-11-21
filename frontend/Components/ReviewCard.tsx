@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -31,7 +31,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme }) => ({
-  marginLeft: "3%",
   transition: theme.transitions.create('transform', {
     duration: theme.transitions.duration.shortest,
   }),
@@ -107,25 +106,25 @@ const ReviewCard = ({post}: {post: Post}) => {
           {post.content}
         </Typography>
       </CardContent>
-      <CardActions disableSpacing >
+      <CardActions disableSpacing style={{display:"flex", justifyContent:"space-around"}}>
         {
           likeFlag ? (
-            <>
+            <div style={{display:"flex"}}>
               <IconButton aria-label="add to favorites" onClick={deleteLike}>
                 <FavoriteIcon sx={{ color: pink[500] }}/>
               </IconButton>
-              <p>{likeCount}</p>
-            </>
+              <p style={{display:"flex", alignItems:"center"}}>{likeCount}</p>
+            </div>
           ) : (
-            <>
+            <div style={{display:"flex"}}>
               <IconButton aria-label="add to favorites" onClick={postLike}>
                 <FavoriteIcon />
               </IconButton>
-              <p>{likeCount}</p>
-            </>
+              <p style={{display:"flex", alignItems:"center"}}>{likeCount}</p>
+            </div>
           )
         }
-        <>
+        <div style={{display:"flex"}}>
           <ExpandMore
             expand={expanded}
             onClick={handleExpandClick}
@@ -134,8 +133,8 @@ const ReviewCard = ({post}: {post: Post}) => {
           >
             <CommentIcon />
           </ExpandMore>
-          <p>0</p>
-        </>
+          <p style={{display:"flex", alignItems:"center"}}>0</p>
+        </div>
         <IconButton>
           <EditIcon />
         </IconButton>
