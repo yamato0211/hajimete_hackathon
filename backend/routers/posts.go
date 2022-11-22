@@ -12,7 +12,7 @@ import (
 func InitPostRouter(pr *gin.RouterGroup) {
 	pr.GET("", middleware, getTimeLine)
 	pr.POST("", middleware, createMyPost)
-	pr.DELETE("/:post_id", deletePost)
+	pr.DELETE("/:post_id", middleware, deletePost)
 }
 
 func createMyPost(c *gin.Context) {
