@@ -22,6 +22,11 @@ import { Post } from '../types/type';
 import styles from "../styles/Home.module.css"
 import axios from 'axios';
 
+interface Props {
+  post: Post
+  setPosts: (x:Post[]) => void
+  posts: Post[]
+}
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -36,7 +41,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-const ReviewCard = ({post}: {post: Post}) => {
+const ReviewCard = ({post,setPosts,posts}: Props) => {
   const [expanded, setExpanded] = useState(false);
   const [likeFlag, setLikeFlag] = useState<boolean>(false)
   const [likeCount, setLikeCount] = useState<number>(0)
@@ -54,6 +59,19 @@ const ReviewCard = ({post}: {post: Post}) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const handleDelete = async (id: string) => {
+    const token = localStorage.getItem("token")
+    try{
+      const res = await axios.delete(`https://hajimete-hackathon-backend.onrender.com/api/v1/posts/${id}`,{
+      headers: {"Authorization": `Bearer ${token}`}
+    })
+      console.log(res.data)
+      setPosts(posts.filter(p => p.id !== id))
+    }catch{
+      alert("自分の投稿のみ削除できます")
+    }
+  }
 
   const postLike = async () => {
     const token = localStorage.getItem("token")
@@ -139,7 +157,7 @@ const ReviewCard = ({post}: {post: Post}) => {
           <EditIcon />
         </IconButton>
         <IconButton>
-          <DeleteIcon />
+          <DeleteIcon onClick={() => handleDelete(post.id)}/>
         </IconButton>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>

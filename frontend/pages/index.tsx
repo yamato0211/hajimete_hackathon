@@ -58,7 +58,7 @@ export default function Home() {
           posts.map((post) => {
             return(
               <li key={post.id} className={styles.cardWrapper}>
-                <ReviewCard post={post} />
+                <ReviewCard post={post} setPosts={setPosts} posts={posts}/>
               </li>
             )
           })
