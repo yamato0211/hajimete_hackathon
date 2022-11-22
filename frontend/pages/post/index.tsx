@@ -15,22 +15,22 @@ export default function Signin() {
       alert("ContentとpostUrlの両方を入力してください")
       return 
     }
-    const res = await axios.post("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",
-    {
-      content: content,
-      song_url: postUrl
-    },
-    {
-      headers: {
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
-      }
-    })
-    
-    if(res.status === 200) {
+    try{
+      const res = await axios.post("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",
+      {
+        content: content,
+        song_url: postUrl
+      },
+      {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      })
+      console.log(res.data)
       setContent("")
       setPostUrl("")
       router.push("/")
-    }else{
+    }catch{
       alert("投稿に失敗しました。")
     }
   }

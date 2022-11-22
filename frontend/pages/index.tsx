@@ -4,6 +4,7 @@ import { useState, useLayoutEffect, useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 import { Post } from '../types/type'
 import ReviewCard from "../Components/ReviewCard"
+import Link from "next/link"
 
 
 export default function Home() {
@@ -53,6 +54,9 @@ export default function Home() {
     <div className={styles.container}>
       <h1>Hajimete_Hackthon</h1>
       <button onClick={handleLogout}>logout</button>
+      <Link href={"/post"}>
+        post page
+      </Link>
       <ul className={styles.postsWrapper}>
         {
           posts.map((post) => {
