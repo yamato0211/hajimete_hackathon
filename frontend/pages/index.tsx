@@ -10,45 +10,49 @@ import Link from "next/link"
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([])
   const router = useRouter();
-  useLayoutEffect(() => {
-    const authCheking = () => {
-      if(localStorage.getItem("token") === null) {
-        router.push("/Signup")
-      }
-    }
-    authCheking()
-  },[])
+
+  // useLayoutEffect(() => {
+  //   const authCheking = () => {
+  //     if(localStorage.getItem("token") === null) {
+  //       router.push("/Signup")
+  //     }
+  //   }
+  //   authCheking()
+  // },[])
 
   useLayoutEffect(() => {
     async function getTimeline() {
-        await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/users/@me",{
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-          }
-        })
-        .then((res) => {
-          localStorage.setItem("user_id", res.data.id)
-        })
-        .catch(e => console.log(e))
-        await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",{
-          headers: {
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-          }
-        })
-        .then(res => {
-          console.log(res.data)
-          setPosts(res.data)
-        })
-        .catch(e => console.log(e))
+        const token = localStorage.getItem("token")
+        if(token){
+          await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/users/@me",{
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          })
+          .then((res) => {
+            localStorage.setItem("user_id", res.data.id)
+          })
+          .catch(e => console.log(e))
+          await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",{
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          })
+          .then(res => {
+            console.log(res.data)
+            setPosts(res.data)
+          })
+          .catch(e => console.log(e))
+        }
     }
     getTimeline()
   },[])
 
-  const handleLogout = () => {
-    localStorage.removeItem("token")
-    localStorage.removeItem("user_id")
-    router.push("/Signup")
-  }
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token")
+  //   localStorage.removeItem("user_id")
+  //   router.push("/Signup")
+  // }
 
   return (
     <div className={styles.container}>
