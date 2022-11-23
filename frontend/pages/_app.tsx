@@ -1,8 +1,21 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import Link from 'next/link'
+import { IconButton } from '@mui/material'
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import HomeIcon from '@mui/icons-material/Home';
+import { useRouter } from 'next/router';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter()
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user_id")
+    router.push("/Signup")
+  }
   return (
     <>
       <Head>
@@ -10,6 +23,29 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="manifest" href="/manifest.json" />
         <link rel="apple-touch-icon" href="/index.png" />
       </Head>
+      <header style={{backgroundColor:"aquamarine", display:"flex",justifyContent:"space-between"}}>
+        <h1>Hajimete_Hackathon</h1>
+        <div>
+          <IconButton>
+            <Link href="/">
+              <HomeIcon/>
+            </Link>
+          </IconButton>
+          <IconButton>
+            <Link href="/user">
+              <PersonIcon/>
+            </Link>
+          </IconButton>
+          <IconButton>
+            <Link href="/post">
+              <PostAddIcon/>
+            </Link>
+          </IconButton>
+          <IconButton onClick={handleLogout}>
+            <LogoutIcon/>
+          </IconButton>
+        </div>
+      </header>
       <Component {...pageProps} />
     </>
   )

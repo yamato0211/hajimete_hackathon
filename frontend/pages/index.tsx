@@ -52,11 +52,11 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <h1>Hajimete_Hackthon</h1>
+      {/* <h1>Hajimete_Hackthon</h1>
       <button onClick={handleLogout}>logout</button>
       <Link href={"/post"}>
         post page
-      </Link>
+      </Link> */}
       <ul className={styles.postsWrapper}>
         {
           posts.map((post) => {

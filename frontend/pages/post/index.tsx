@@ -6,7 +6,7 @@ import { TextField } from "@mui/material"
 import {Box} from "@mui/material"
 import {Button} from "@mui/material"
 
-export default function Signin() {
+export default function Post() {
   const  router = useRouter()
   const [content, setContent] = useState<string>("")
   const [postUrl, setPostUrl] = useState<string>("")
