@@ -8,10 +8,11 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import CommentIcon from '@mui/icons-material/Comment';
-import { red } from '@mui/material/colors';
+import { TextField } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import ShareIcon from '@mui/icons-material/Share';
@@ -45,7 +46,21 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
   const [expanded, setExpanded] = useState(false);
   const [likeFlag, setLikeFlag] = useState<boolean>(false)
   const [likeCount, setLikeCount] = useState<number>(0)
-
+  const [comment, setComment] = useState("")
+  const testComment = [
+    {
+      id: 1,
+      content: "test1",
+      created_at: "2022-11-22"
+    },
+    {
+      id: 2,
+      content: "test2",
+      created_at: "2022-11-22"
+    }
+  ]
+  const [comments, setComments] = useState(testComment)
+  
   useEffect(() => {
     const user_id = localStorage.getItem("user_id")
     post.like_users.forEach((u) => {
@@ -108,6 +123,23 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
 
     return `${year}/${month}/${dates} ${hours}:${minutes}:${seconds}`;
   }
+  
+  const handleComment = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setComments([...comments,{
+      id: comments.length + 1,
+      content: comment,
+      created_at: "2022-11-22"
+    }])
+    setComment("")
+  }
+
+  // const handleKeyDown = (e:any) => {
+  //   e.preventDefault()
+  //   if(e.key === 'Enter') {
+  //     handleComment()
+  //   }
+  // }
 
   return (
     <Card sx={{ maxWidth: 600 }} className={styles.center}>
@@ -151,7 +183,7 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
           >
             <CommentIcon />
           </ExpandMore>
-          <p style={{display:"flex", alignItems:"center"}}>0</p>
+          <p style={{display:"flex", alignItems:"center"}}>{comments.length}</p>
         </div>
         <IconButton>
           <EditIcon />
@@ -162,7 +194,38 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>コメント欄</Typography>
+          <Typography paragraph>コメント欄</Typography> 
+          <form onSubmit={(e) => handleComment(e)}>
+            <TextField 
+              id="standard-basic" 
+              label="コメントを書く" 
+              variant="standard" 
+              style={{marginBottom:"10px",width:"50%"}}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            // onKeyDown={handleKeyDown}
+            />
+          </form>
+          {
+            comments.map((comment) => {
+              return (
+                <Card sx={{ maxWidth: 600 }} key={comment.id} style={{marginBottom:"5px"}}>
+                  <CardContent>
+                    <Typography variant="h5" component="div">
+                      User1
+                    </Typography>
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                      {comment.created_at}
+                    </Typography>
+                    <Typography variant="body2">
+                      {comment.content}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              )
+            })
+          }
+          
         </CardContent>
       </Collapse>
     </Card>
