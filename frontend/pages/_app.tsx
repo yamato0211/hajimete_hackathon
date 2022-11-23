@@ -9,6 +9,7 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import HomeIcon from '@mui/icons-material/Home';
 import { useRouter } from 'next/router'
 import { useLayoutEffect } from 'react'
+import style from "../styles/Home.module.css"
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -37,9 +38,11 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       {
         router.pathname !== "/Signup" && router.pathname !== "/Signin" ?(
-          <header style={{backgroundColor:"aquamarine", display:"flex",justifyContent:"space-between"}}>
+          <header 
+            style={{backgroundColor:"aquamarine", display:"flex",justifyContent:"space-between"}}
+          >
             <h1>Hajimete_Hackathon</h1>
-            <div>
+            <div className={style.globalHeader}>
               <IconButton>
                 <Link href="/">
                   <HomeIcon/>

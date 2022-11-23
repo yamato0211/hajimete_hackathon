@@ -51,7 +51,7 @@ export default function Post() {
           defaultValue={postUrl}
           value={postUrl}
           onChange={(e) => setPostUrl(e.target.value)}
-          style={{width:"30%", paddingBottom:"30px"}}
+          style={{width:"50%", paddingBottom:"30px"}}
         />
         <TextField
             id="outlined-multiline-flexible"
@@ -62,7 +62,7 @@ export default function Post() {
             defaultValue={content}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            style={{width:"30%", paddingBottom:"30px"}}
+            style={{width:"50%", paddingBottom:"30px"}}
         />
       </Box>
       <Button 
