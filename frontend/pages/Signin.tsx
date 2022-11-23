@@ -20,15 +20,22 @@ export default function Signin() {
     const [password,setPassword] = useState<string>("")
     const router = useRouter()
     const handleSubmit = async() => {
-      await axios.post("https://hajimete-hackathon-backend.onrender.com/api/v1/users/signin",{
-        email: email,
-        password: password
-      })
-      .then(res => localStorage.setItem("token",res.data.jwt))
-      .catch(e => console.log(e))
-      setEmail("")
-      setPassword("")
-      router.push("/")
+      try {
+        const res = await axios.post("https://hajimete-hackathon-backend.onrender.com/api/v1/users/signin",{
+          email: email,
+          password: password
+        })
+        localStorage.setItem("token",res.data.jwt)
+        if(res.status === 200) {
+          setEmail("")
+          setPassword("")
+          router.push("/")
+        } else {
+          alert("ログインに失敗しました")
+        }
+      } catch {
+        alert("ログインに失敗しました")
+      }
     }
     return (
     <ThemeProvider theme={theme}>
