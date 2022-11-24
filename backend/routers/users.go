@@ -15,6 +15,8 @@ func InitUserRouter(ur *gin.RouterGroup) {
 	ur.GET("/@me", middleware, getMe)
 	ur.GET("/:user_id", middleware, getUser)
 	ur.PATCH("/@me", middleware, updateName)
+	ur.GET("/@me/posts", middleware, getMyPosts)
+	ur.GET("/:user_id/posts", middleware, getSomeonesPosts)
 }
 
 func signUp(c *gin.Context) {
@@ -109,4 +111,55 @@ func updateName(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, user)
+}
+
+func getMyPosts(c *gin.Context) {
+	var (
+		userId  any
+		isExist bool
+		posts   []db.Post
+		err     error
+	)
+
+	if userId, isExist = c.Get("user_id"); !isExist {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "token is invalid",
+		})
+		return
+	}
+
+	if posts, err = cruds.GetPostsByUserId(userId.(string)); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, posts)
+}
+
+func getSomeonesPosts(c *gin.Context) {
+	var (
+		userId  any
+		isExist bool
+		posts   []db.Post
+		err     error
+	)
+
+	if _, isExist = c.Get("user_id"); !isExist {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "token is invalid",
+		})
+		return
+	}
+
+	userId = c.Param("user_id")
+	if posts, err = cruds.GetPostsByUserId(userId.(string)); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, posts)
 }
