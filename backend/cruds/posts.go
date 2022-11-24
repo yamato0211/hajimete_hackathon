@@ -70,3 +70,27 @@ func DeletePost(postId string, userId string) (err error) {
 	fmt.Println(err)
 	return
 }
+
+func GetPostsByUserId(userId string) (ps []db.Post, err error) {
+	if err = db.Psql.First(&db.User{}, "id = ?", userId).Error; err != nil {
+		return
+	}
+	err = db.Psql.Where("user_id = ?", userId).Order("created_at desc").Find(&ps).Error
+	if err != nil {
+		return
+	}
+	for i, post := range ps {
+		var user []db.User
+		err = db.Psql.Model(&post).Association("User").Find(&user)
+		if err != nil {
+			return
+		}
+		ps[i].User = user[0]
+		err = db.Psql.Model(&post).Association("LikeUsers").Find(&user)
+		if err != nil {
+			return
+		}
+		ps[i].LikeUsers = user
+	}
+	return
+}
