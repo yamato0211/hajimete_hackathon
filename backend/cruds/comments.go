@@ -3,20 +3,18 @@ package cruds
 import (
 	"fmt"
 	"jwt-tutorial/db"
-
-	"github.com/google/uuid"
 )
 
 func CreateComment(content string, userID string, postID string) (new_comment db.Comment, err error) {
-	new_comment = db.Comment{ID: uuid.New().String(), Content: content, UserID: userID, PostID: postID}
+	new_comment = db.Comment{Content: content, UserID: userID, PostID: postID}
 	if err = db.Psql.Create(&new_comment).Error; err != nil {
 		return
 	}
-	var user db.User
-	if err = db.Psql.Where("id = ?", userID).First(&user).Error; err != nil {
+	var user []db.User
+	if err = db.Psql.Model(&new_comment).Association("User").Find(&user); err != nil {
 		return
 	}
-	new_comment.User = user
+	new_comment.User = user[0]
 	return new_comment, err
 
 }

@@ -41,8 +41,8 @@ type Like struct {
 }
 
 type Comment struct {
-	ID        string    `gorm:"not null;unique" json:"id"`
-	UserID    string    `gorm:"primaryKey" json:"user_id"`
+	ID        string    `gorm:"primaryKey" json:"id" sql:"type:uuid;primary_key;default:uuid_generate_v4()"`
+	UserID    string    `gorm:"primaryKey" json:"-"`
 	PostID    string    `gorm:"primaryKey" json:"post_id"`
 	User      User      `gorm:"foreignKey:UserID;reference:ID" json:"user"`
 	CreatedAt time.Time `json:"created_at"`
