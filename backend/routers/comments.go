@@ -10,7 +10,6 @@ import (
 )
 
 func InitCommentRouter(pr *gin.RouterGroup) {
-	//pr.GET("", middleware, getTimeLine)
 	pr.POST("/:post_id", middleware, createMyComment)
 	pr.DELETE("/:comment_id", middleware, deleteComment)
 }

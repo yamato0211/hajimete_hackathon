@@ -7,8 +7,8 @@ import (
 	"github.com/google/uuid"
 )
 
-func CreateComment(content string, userID string, postID string) (post db.Post, err error) {
-	new_comment := db.Comment{ID: uuid.New().String(), Content: content, UserID: userID, PostID: postID}
+func CreateComment(content string, userID string, postID string) (new_comment db.Comment, err error) {
+	new_comment = db.Comment{ID: uuid.New().String(), Content: content, UserID: userID, PostID: postID}
 	if err = db.Psql.Create(&new_comment).Error; err != nil {
 		return
 	}
@@ -17,8 +17,8 @@ func CreateComment(content string, userID string, postID string) (post db.Post, 
 		return
 	}
 	new_comment.User = user[0]
-	post, err = GetPost(postID)
-	return
+	return new_comment, err
+
 }
 
 func DeleteComment(commentId string) (err error) {
