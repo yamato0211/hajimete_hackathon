@@ -48,20 +48,8 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
   const [likeFlag, setLikeFlag] = useState<boolean>(false)
   const [likeCount, setLikeCount] = useState<number>(0)
   const [comment, setComment] = useState("")
-  const testComment = [
-    {
-      id: 1,
-      content: "test1",
-      created_at: "2022-11-22"
-    },
-    {
-      id: 2,
-      content: "test2",
-      created_at: "2022-11-22"
-    }
-  ]
-  const [comments, setComments] = useState(testComment)
-  
+  const [comments, setComments] = useState(post.comments)
+
   useEffect(() => {
     const user_id = localStorage.getItem("user_id")
     post.like_users.forEach((u) => {
@@ -125,14 +113,42 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
     return `${year}/${month}/${dates} ${hours}:${minutes}:${seconds}`;
   }
   
-  const handleComment = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleComment = async(e: React.FormEvent<HTMLFormElement>, post_id: string) => {
     e.preventDefault()
-    setComments([{
-      id: comments.length + 1,
-      content: comment,
-      created_at: "2022-11-22"
-    },...comments])
-    setComment("")
+    const token = localStorage.getItem("token")
+    try{
+      await axios.post(`https://hajimete-hackathon-backend.onrender.com/api/v1/comments/${post_id}`,{
+        content: comment,
+      },
+      {
+        headers: {"Authorization": `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log(res.data)
+        setComments([res.data,...comments])
+      })
+      setComment("")
+    }catch(e){
+      alert("コメントに失敗しました")
+      console.error(e)
+    }
+  }
+
+  const DeleteComment = async(comment_id: string) => {
+    const token = localStorage.getItem("token")
+    try {
+      await axios.delete(`https://hajimete-hackathon-backend.onrender.com/api/v1/comments/${comment_id}`,
+      {
+        headers: {"Authorization": `Bearer ${token}`},
+      })
+      .then(res => {
+        console.log(res.data)
+        setComments(comments.filter(c => c.id !== comment_id))
+      })
+    }catch (e) {
+      alert("削除に失敗しました")
+      console.error(e)
+    }
   }
 
   return (
@@ -199,7 +215,7 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>コメント欄</Typography> 
-          <form onSubmit={(e) => handleComment(e)}>
+          <form onSubmit={(e) => handleComment(e, post.id)}>
             <TextField 
               id="standard-basic" 
               label="コメントを書く" 
@@ -216,14 +232,25 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
                 <Card sx={{ maxWidth: 600 }} key={comment.id} style={{marginBottom:"5px"}}>
                   <CardContent>
                     <Typography variant="h5" component="div">
-                      User1
+                      {comment.user.name}
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                      {comment.created_at}
+                      {formatDate(comment.created_at.toString())}
                     </Typography>
                     <Typography variant="body2">
                       {comment.content}
                     </Typography>
+                    {
+                      localStorage.getItem("user_id") === comment.user.id ? (
+                        <>
+                          <IconButton>
+                            <DeleteIcon onClick={() => DeleteComment(comment.id)}/>
+                          </IconButton>
+                        </>
+                      ) : (
+                        <></>
+                      )
+                    }
                   </CardContent>
                 </Card>
               )
