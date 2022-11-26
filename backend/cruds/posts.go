@@ -37,7 +37,7 @@ func GetAllPost() (posts []db.Post, err error) {
 			return
 		}
 		posts[i].LikeUsers = user
-		err = db.Psql.Model(&post).Preload("Comment").Find(&comment).Error
+		err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comment).Error
 		if err != nil {
 			return
 		}
@@ -63,7 +63,7 @@ func GetPost(postId string) (post db.Post, err error) {
 		return
 	}
 	post.LikeUsers = user
-	err = db.Psql.Model(&post).Association("Comments").Find(&comment)
+	err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comment).Error
 	if err != nil {
 		return
 	}
@@ -105,7 +105,7 @@ func GetPostsByUserId(userId string) (ps []db.Post, err error) {
 			return
 		}
 		ps[i].LikeUsers = user
-		err = db.Psql.Model(&post).Association("Comments").Find(&comment)
+		err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comment).Error
 		if err != nil {
 			return
 		}

@@ -32,7 +32,7 @@ type Post struct {
 	SongUrl   string    `json:"song_url"`
 	User      User      `gorm:"foreignKey:UserID;reference:ID" json:"user"`
 	LikeUsers []User    `gorm:"many2many:likes;" json:"like_users"`
-	Comments  []Comment `gorm:"foreignKey:ID" json:"comments"`
+	Comments  []Comment `json:"comments"`
 }
 
 type Like struct {
