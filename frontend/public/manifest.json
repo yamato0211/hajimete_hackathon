@@ -1,6 +1,6 @@
 {
-  "name": "PWA App",
-  "short_name": "App",
+  "name": "SoNgS",
+  "short_name": "SoNgS",
   "icons": [
     {
       "src": "/index.png",
@@ -18,5 +18,12 @@
   "background_color": "#FFFFFF",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "share_target": {
+    "action": "/post",
+    "method": "GET",
+    "params": {
+        "url": "url"
+    }
+  }
 }
