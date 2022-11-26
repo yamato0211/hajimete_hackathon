@@ -25,7 +25,7 @@ func GetAllPost() (posts []db.Post, err error) {
 	}
 	for i, post := range posts {
 		var user []db.User
-		var comment []db.Comment
+		var comments []db.Comment
 		err = db.Psql.Model(&post).Association("User").Find(&user)
 		if err != nil {
 			return
@@ -37,11 +37,18 @@ func GetAllPost() (posts []db.Post, err error) {
 			return
 		}
 		posts[i].LikeUsers = user
-		err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comment).Error
+		err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comments).Error
 		if err != nil {
 			return
 		}
-		posts[i].Comments = comment
+		for j, comment := range comments {
+			var comment_user db.User
+			if err = db.Psql.Where("id = ?", comment.UserID).First(&comment_user).Error; err != nil {
+				return
+			}
+			comments[j].User = comment_user
+		}
+		posts[i].Comments = comments
 	}
 	return
 }
@@ -52,7 +59,7 @@ func GetPost(postId string) (post db.Post, err error) {
 		return
 	}
 	var user []db.User
-	var comment []db.Comment
+	var comments []db.Comment
 	err = db.Psql.Model(&post).Association("User").Find(&user)
 	if err != nil {
 		return
@@ -63,11 +70,18 @@ func GetPost(postId string) (post db.Post, err error) {
 		return
 	}
 	post.LikeUsers = user
-	err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comment).Error
+	err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comments).Error
 	if err != nil {
 		return
 	}
-	post.Comments = comment
+	for j, comment := range comments {
+		var comment_user db.User
+		if err = db.Psql.Where("id = ?", comment.UserID).First(&comment_user).Error; err != nil {
+			return
+		}
+		comments[j].User = comment_user
+	}
+	post.Comments = comments
 	return
 }
 
@@ -94,7 +108,7 @@ func GetPostsByUserId(userId string) (ps []db.Post, err error) {
 	}
 	for i, post := range ps {
 		var user []db.User
-		var comment []db.Comment
+		var comments []db.Comment
 		err = db.Psql.Model(&post).Association("User").Find(&user)
 		if err != nil {
 			return
@@ -105,11 +119,18 @@ func GetPostsByUserId(userId string) (ps []db.Post, err error) {
 			return
 		}
 		ps[i].LikeUsers = user
-		err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comment).Error
+		err = db.Psql.Where("post_id = ?", post.ID).Order("created_at desc").Find(&comments).Error
 		if err != nil {
 			return
 		}
-		ps[i].Comments = comment
+		for j, comment := range comments {
+			var comment_user db.User
+			if err = db.Psql.Where("id = ?", comment.UserID).First(&comment_user).Error; err != nil {
+				return
+			}
+			comments[j].User = comment_user
+		}
+		ps[i].Comments = comments
 	}
 	return
 }
