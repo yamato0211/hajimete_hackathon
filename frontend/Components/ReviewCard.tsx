@@ -164,7 +164,7 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
         </iframe>
       </div>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body1">
           {post.content}
         </Typography>
       </CardContent>
@@ -237,20 +237,22 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
                       {formatDate(comment.created_at.toString())}
                     </Typography>
-                    <Typography variant="body2">
-                      {comment.content}
-                    </Typography>
-                    {
-                      localStorage.getItem("user_id") === comment.user.id ? (
-                        <>
-                          <IconButton>
-                            <DeleteIcon onClick={() => DeleteComment(comment.id)}/>
-                          </IconButton>
-                        </>
-                      ) : (
-                        <></>
-                      )
-                    }
+                    <div style={{display:"flex"}}>
+                      <Typography variant="body1">
+                        {comment.content}
+                      </Typography>
+                      {
+                        localStorage.getItem("user_id") === comment.user.id ? (
+                          <>
+                            <IconButton style={{marginLeft:"auto"}}>
+                              <DeleteIcon onClick={() => DeleteComment(comment.id)}/>
+                            </IconButton>
+                          </>
+                        ) : (
+                          <></>
+                        )
+                      }
+                    </div>
                   </CardContent>
                 </Card>
               )
