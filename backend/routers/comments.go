@@ -30,7 +30,7 @@ func createMyComment(c *gin.Context) {
 
 	postId := c.Param("post_id")
 	c.Bind(&payload)
-	p, err := cruds.CreateComment(payload.Content, userId.(string))
+	p, err := cruds.CreateComment(payload.Content, userId.(string), postId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -44,11 +44,10 @@ func createMyComment(c *gin.Context) {
 
 func deleteComment(c *gin.Context) {
 	var (
-		userId  any
 		isExist bool
 	)
 
-	if userId, isExist = c.Get("user_id"); !isExist {
+	if _, isExist = c.Get("user_id"); !isExist {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "token is invalid",
 		})
