@@ -19,7 +19,6 @@ export interface Post {
 
 export interface Comment {
     id: string
-    user_id: string
     post_id: string
     user: User
     created_at: Date
