@@ -115,6 +115,7 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
   
   const handleComment = async(e: React.FormEvent<HTMLFormElement>, post_id: string) => {
     e.preventDefault()
+
     const token = localStorage.getItem("token")
     try{
       await axios.post(`https://hajimete-hackathon-backend.onrender.com/api/v1/comments/${post_id}`,{
@@ -222,7 +223,8 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
               variant="standard" 
               style={{marginBottom:"10px",width:"50%"}}
               value={comment}
-              onChange={(e) => setComment(e.target.value)}
+              onChange={
+                (e) => setComment(e.target.value)}
             // onKeyDown={handleKeyDown}
             />
           </form>

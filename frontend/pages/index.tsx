@@ -33,6 +33,7 @@ export default function Home() {
             localStorage.setItem("user_id", res.data.id)
           })
           .catch(e => console.log(e))
+
           await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",{
             headers: {
               "Authorization": `Bearer ${token}`
