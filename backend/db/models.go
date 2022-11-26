@@ -27,12 +27,12 @@ type User struct {
 
 type Post struct {
 	Base
-	UserID  string `json:"-"`
-	Content string `json:"content"`
-	SongUrl string `json:"song_url"`
-	User    User   `gorm:"foreignKey:UserID;reference:ID" json:"user"`
-	LikeUsers []User `gorm:"many2many:likes;" json:"like_users"`
-	Comments []Comment `gorm:"many2many:comments;" json:"comments"`
+	UserID    string    `json:"-"`
+	Content   string    `json:"content"`
+	SongUrl   string    `json:"song_url"`
+	User      User      `gorm:"foreignKey:UserID;reference:ID" json:"user"`
+	LikeUsers []User    `gorm:"many2many:likes;" json:"like_users"`
+	Comments  []Comment `gorm:"many2many:comments;" json:"comments"`
 }
 
 type Like struct {
@@ -41,11 +41,11 @@ type Like struct {
 }
 
 type Comment struct {
-	ID string `gorm:"primaryKey" json:"id" sql:"type:uuid;primary_key;default:uuid_generate_v4()"`
-	UserID string `gorm:"primaryKey" json:"user_id"`
-	PostID string `gorm:"primaryKey" json:"post_id"`
-	User    User   `gorm:"foreignKey:UserID;reference:ID" json:"user"`
+	ID        string    `gorm:"not null;unique" json:"id"`
+	UserID    string    `gorm:"primaryKey" json:"user_id"`
+	PostID    string    `gorm:"primaryKey" json:"post_id"`
+	User      User      `gorm:"foreignKey:UserID;reference:ID" json:"user"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
-	Content string `json:"content`
+	Content   string    `json:"content"`
 }

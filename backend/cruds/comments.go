@@ -3,10 +3,12 @@ package cruds
 import (
 	"fmt"
 	"jwt-tutorial/db"
+
+	"github.com/google/uuid"
 )
 
-func CreateComment(content string, userID string, postID string) (new_comment db.Comment, err error) {
-	new_comment = db.Comment{Content: content, UserID: userID, PostID: postID}
+func CreateComment(content string, userID string, postID string) (post db.Post, err error) {
+	new_comment := db.Comment{ID: uuid.New().String(), Content: content, UserID: userID, PostID: postID}
 	if err = db.Psql.Create(&new_comment).Error; err != nil {
 		return
 	}
@@ -15,7 +17,8 @@ func CreateComment(content string, userID string, postID string) (new_comment db
 		return
 	}
 	new_comment.User = user[0]
-	return new_comment, nil
+	post, err = GetPost(postID)
+	return
 }
 
 func DeleteComment(commentId string) (err error) {
