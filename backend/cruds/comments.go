@@ -12,11 +12,11 @@ func CreateComment(content string, userID string, postID string) (new_comment db
 	if err = db.Psql.Create(&new_comment).Error; err != nil {
 		return
 	}
-	var user []db.User
-	if err = db.Psql.Model(&new_comment).Association("User").Find(&user); err != nil {
+	var user db.User
+	if err = db.Psql.Where("id = ?", userID).First(&user).Error; err != nil {
 		return
 	}
-	new_comment.User = user[0]
+	new_comment.User = user
 	return new_comment, err
 
 }
