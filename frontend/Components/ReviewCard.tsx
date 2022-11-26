@@ -22,6 +22,7 @@ import { pink } from '@mui/material/colors';
 import { Post } from '../types/type';
 import styles from "../styles/Home.module.css"
 import axios from 'axios';
+import Link from 'next/link';
 
 interface Props {
   post: Post
@@ -84,7 +85,7 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
       console.log(res.data)
       setPosts(posts.filter(p => p.id !== id))
     }catch{
-      alert("自分の投稿のみ削除できます")
+      alert("削除に失敗しました")
     }
   }
 
@@ -126,27 +127,22 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
   
   const handleComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setComments([...comments,{
+    setComments([{
       id: comments.length + 1,
       content: comment,
       created_at: "2022-11-22"
-    }])
+    },...comments])
     setComment("")
   }
 
-  // const handleKeyDown = (e:any) => {
-  //   e.preventDefault()
-  //   if(e.key === 'Enter') {
-  //     handleComment()
-  //   }
-  // }
-
   return (
     <Card sx={{ maxWidth: 600 }} className={styles.center}>
-      <CardHeader
-        title={post.user.name}
-        subheader={formatDate(post.created_at.toString())}
-      />
+      <Link href={`/user/${post.user.id}`}>
+        <CardHeader
+          title={post.user.name}
+          subheader={formatDate(post.created_at.toString())}
+        />
+      </Link>
       <div className={styles.aho}>
         <iframe className={styles.gaki} src={`https://odesli.co/embed/?url=${post.song_url}&theme=dark`} frameBorder={0} allowFullScreen sandbox="allow-same-origin allow-scripts allow-presentation allow-popups allow-popups-to-escape-sandbox" allow="clipboard-read; clipboard-write">
         </iframe>
@@ -185,12 +181,20 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
           </ExpandMore>
           <p style={{display:"flex", alignItems:"center"}}>{comments.length}</p>
         </div>
-        <IconButton>
-          <EditIcon />
-        </IconButton>
-        <IconButton>
-          <DeleteIcon onClick={() => handleDelete(post.id)}/>
-        </IconButton>
+        {
+          localStorage.getItem("user_id") === post.user.id ? (
+            <>
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+              <IconButton>
+                <DeleteIcon onClick={() => handleDelete(post.id)}/>
+              </IconButton>
+            </>
+          ):(
+            <></>
+          )
+        }
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
@@ -225,7 +229,6 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
               )
             })
           }
-          
         </CardContent>
       </Collapse>
     </Card>

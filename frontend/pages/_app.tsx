@@ -8,7 +8,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import HomeIcon from '@mui/icons-material/Home';
 import { useRouter } from 'next/router'
-import { useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import style from "../styles/Home.module.css"
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -25,6 +25,11 @@ export default function App({ Component, pageProps }: AppProps) {
     authCheck()
   },[])
 
+  const goMyPage = () => {
+    const uid = localStorage.getItem("user_id")
+    router.push(`/user/${uid}`)
+  }
+
   const handleLogout = () => {
     localStorage.removeItem("token")
     localStorage.removeItem("user_id")
@@ -39,19 +44,19 @@ export default function App({ Component, pageProps }: AppProps) {
       {
         router.pathname !== "/Signup" && router.pathname !== "/Signin" ?(
           <header 
-            style={{backgroundColor:"aquamarine", display:"flex",justifyContent:"space-between"}}
+            style={{backgroundColor:"aquamarine", display:"flex",justifyContent:"space-around"}}
           >
-            <h1>Hajimete_Hackathon</h1>
+            <h1>SoNgS</h1>
             <div className={style.globalHeader}>
               <IconButton>
                 <Link href="/">
                   <HomeIcon/>
                 </Link>
               </IconButton>
-              <IconButton>
-                <Link href="/user">
+              <IconButton onClick={goMyPage}>
+                <div>
                   <PersonIcon/>
-                </Link>
+                </div>
               </IconButton>
               <IconButton>
                 <Link href="/post">
