@@ -37,7 +37,7 @@ func GetAllPost() (posts []db.Post, err error) {
 			return
 		}
 		posts[i].LikeUsers = user
-		err = db.Psql.Model(&db.Post{}).Preload("Comment").Find(&comment).Error
+		err = db.Psql.Model(&post).Preload("Comment").Find(&comment).Error
 		if err != nil {
 			return
 		}
