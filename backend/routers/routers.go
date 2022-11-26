@@ -50,6 +50,8 @@ func InitRouter(api *gin.Engine) {
 	InitPostRouter(post_router)
 	like_router := v1.Group("/likes")
 	InitLikeRouter(like_router)
+	comment_router := v1.Group("/comments")
+	InitLikeRouter(comment_router)
 }
 
 func middleware(c *gin.Context) {

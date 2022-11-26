@@ -32,9 +32,20 @@ type Post struct {
 	SongUrl string `json:"song_url"`
 	User    User   `gorm:"foreignKey:UserID;reference:ID" json:"user"`
 	LikeUsers []User `gorm:"many2many:likes;" json:"like_users"`
+	Comments []Comment `gorm:"many2many:comments;" json:"comments"`
 }
 
 type Like struct {
 	UserID string `gorm:"primaryKey" json:"user_id"`
 	PostID string `gorm:"primaryKey" json:"post_id"`
+}
+
+type Comment struct {
+	ID string `gorm:"primaryKey" json:"id" sql:"type:uuid;primary_key;default:uuid_generate_v4()"`
+	UserID string `gorm:"primaryKey" json:"user_id"`
+	PostID string `gorm:"primaryKey" json:"post_id"`
+	User    User   `gorm:"foreignKey:UserID;reference:ID" json:"user"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Content string `json:"content`
 }
