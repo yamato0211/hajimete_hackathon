@@ -14,4 +14,15 @@ export interface Post {
     song_url: string
     user: User
     like_users: User[]
+    comments: Comment[]
+}
+
+export interface Comment {
+    id: string
+    user_id: string
+    post_id: string
+    user: User
+    created_at: Date
+    updated_at: Date
+    content: string
 }
