@@ -25,6 +25,7 @@ func GetAllPost() (posts []db.Post, err error) {
 	}
 	for i, post := range posts {
 		var user []db.User
+		var comment []db.Comment
 		err = db.Psql.Model(&post).Association("User").Find(&user)
 		if err != nil {
 			return
@@ -36,6 +37,11 @@ func GetAllPost() (posts []db.Post, err error) {
 			return
 		}
 		posts[i].LikeUsers = user
+		err = db.Psql.Model(&post).Association("Comments").Find(&comment)
+		if err != nil {
+			return
+		}
+		posts[i].Comments = comment
 	}
 	return
 }
@@ -46,6 +52,7 @@ func GetPost(postId string) (post db.Post, err error) {
 		return
 	}
 	var user []db.User
+	var comment []db.Comment
 	err = db.Psql.Model(&post).Association("User").Find(&user)
 	if err != nil {
 		return
@@ -56,6 +63,11 @@ func GetPost(postId string) (post db.Post, err error) {
 		return
 	}
 	post.LikeUsers = user
+	err = db.Psql.Model(&post).Association("Comments").Find(&comment)
+	if err != nil {
+		return
+	}
+	post.Comments = comment
 	return
 }
 
@@ -65,6 +77,7 @@ func DeletePost(postId string, userId string) (err error) {
 		return
 	}
 	db.Psql.Where("post_id = ?", postId).Delete(&db.Like{})
+	db.Psql.Where("post_id = ?", postId).Delete(&db.Comment{})
 
 	err = db.Psql.Where("id = ? AND user_id = ?", postId, userId).Delete(&db.Post{}).Error
 	fmt.Println(err)
@@ -81,6 +94,7 @@ func GetPostsByUserId(userId string) (ps []db.Post, err error) {
 	}
 	for i, post := range ps {
 		var user []db.User
+		var comment []db.Comment
 		err = db.Psql.Model(&post).Association("User").Find(&user)
 		if err != nil {
 			return
@@ -91,6 +105,11 @@ func GetPostsByUserId(userId string) (ps []db.Post, err error) {
 			return
 		}
 		ps[i].LikeUsers = user
+		err = db.Psql.Model(&post).Association("Comments").Find(&comment)
+		if err != nil {
+			return
+		}
+		ps[i].Comments = comment
 	}
 	return
 }
