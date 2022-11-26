@@ -30,6 +30,7 @@ func InitRouter(api *gin.Engine) {
 			"PATCH",
 			"DELETE",
 			"OPTIONS",
+			"PUT",
 		},
 		// 許可したいHTTPリクエストヘッダ
 		AllowHeaders: []string{
