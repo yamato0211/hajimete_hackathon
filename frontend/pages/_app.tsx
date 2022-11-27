@@ -44,7 +44,8 @@ export default function App({ Component, pageProps }: AppProps) {
       {
         router.pathname !== "/Signup" && router.pathname !== "/Signin" ?(
           <header 
-            style={{backgroundColor:"#4D4D4D", display:"flex",justifyContent:"space-around"}}
+          className={style.headerStyle}
+          style={{backgroundColor:"#4D4D4D", display:"flex",justifyContent:"space-around"}}
           >
             <h1 style={{color: "#EEEEEE"}}>SoNgS</h1>
             <div className={style.globalHeader}>
