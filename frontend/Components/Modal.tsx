@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 import { TextField } from "@mui/material"
 import {Box} from "@mui/material"
 import {Button} from "@mui/material"
+import BackspaceIcon from '@mui/icons-material/Backspace';
 import {Post} from "../types/type"
 
 interface Props {
@@ -58,8 +59,14 @@ export default function ModalCard({post,posts,closeModal,setPosts}:Props) {
   
 
   return (
-    <div style={{textAlign: "center", width:"100%", height:"100%",backgroundColor:"aquamarine"}}>
-      <h1 style={{padding: "50px 0"}}>Edit Post</h1>
+    <div 
+      style={{textAlign: "center",width:"80%",margin:"0 auto",minHeight:"100vh"}}
+      className={styles.container}
+    >
+      <h1 style={{padding: "50px 0",color:"white"}}>Edit Post</h1>
+      <div style={{margin:"0 0 0 auto"}}>
+        <BackspaceIcon onClick={closeModal}/>
+      </div>
       <Box
         component="div"
         sx={{
@@ -90,7 +97,7 @@ export default function ModalCard({post,posts,closeModal,setPosts}:Props) {
       <Button 
         onClick={() => {handleClose(post.id)}} 
         variant="outlined" 
-        style={{width:"10%"}}
+        style={{width:"10%", color:"white"}}
         size="large"
       >
         Edit!
