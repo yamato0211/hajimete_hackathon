@@ -40,11 +40,11 @@ export default function Users() {
             <p className={styles.userName}>{user.name}:投稿履歴</p>
             <br />
             <div>
-                <ul>
+                <ul className={styles.postsWrapper}>
                     {
                         posts.map((post) => {
                             return (
-                                <li key={post.id} style={{marginBottom:"20px"}}>
+                                <li key={post.id} className={styles.cardWrapper}>
                                     <ReviewCard post={post} setPosts={setPosts} posts={posts}/>
                                 </li>
                             )

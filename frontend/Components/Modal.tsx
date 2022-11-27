@@ -60,7 +60,7 @@ export default function ModalCard({post,posts,closeModal,setPosts}:Props) {
 
   return (
     <div 
-      style={{textAlign: "center",width:"80%",margin:"0 auto",minHeight:"100vh"}}
+      style={{textAlign: "center",width:"100%",margin:"0 auto",minHeight:"100vh"}}
       className={styles.container}
     >
       <h1 style={{padding: "50px 0",color:"white"}}>Edit Post</h1>
