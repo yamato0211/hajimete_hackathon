@@ -2,6 +2,7 @@ package routers
 
 import (
 	"jwt-tutorial/cruds"
+	"jwt-tutorial/db"
 	"jwt-tutorial/types"
 
 	"net/http"
@@ -86,25 +87,26 @@ func deletePost(c *gin.Context) {
 
 func putPost(c *gin.Context) {
 	var (
-			userId  any
-			isExist bool
-			user    db.User
-			err     error
+		isExist bool
+		post    db.Post
+		payload types.NewPost
+		err     error
 	)
 
-	if userId, isExist = c.Get("user_id"); !isExist {
-			c.JSON(http.StatusBadRequest, gin.H{
-					"message": "token is invalid",
-			})
-			return
+	if _, isExist = c.Get("user_id"); !isExist {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "token is invalid",
+		})
+		return
 	}
 
+	c.Bind(&payload)
 	post_id := c.Param("post_id")
-	if user, err = cruds.updatePost(userId.(string), post_id); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-					"message": err.Error(),
-			})
-			return
+	if post, err = cruds.UpdatePost(payload.Content, payload.SongUrl, post_id); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": err.Error(),
+		})
+		return
 	}
 
 	c.JSON(http.StatusOK, post)
