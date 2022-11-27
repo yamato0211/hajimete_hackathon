@@ -8,7 +8,7 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { Button } from '@mui/material';
+import { Box, Button, Modal } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Typography from '@mui/material/Typography';
 import CommentIcon from '@mui/icons-material/Comment';
@@ -23,6 +23,7 @@ import { Post } from '../types/type';
 import styles from "../styles/Home.module.css"
 import axios from 'axios';
 import Link from 'next/link';
+import ModalCard from './Modal';
 
 interface Props {
   post: Post
@@ -151,6 +152,10 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
     }
   }
 
+  const [open, setOpen] = useState(false)
+  const openModal = () => setOpen(true);
+  const closeModal = () => setOpen(false);
+
   return (
     <Card sx={{ maxWidth: 600 }} className={styles.center}>
       <Link href={`/user/${post.user.id}`}>
@@ -200,9 +205,22 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
         {
           localStorage.getItem("user_id") === post.user.id ? (
             <>
-              <IconButton>
+              <IconButton onClick={openModal}>
                 <EditIcon />
               </IconButton>
+              <Modal
+                open={open}
+                onClose={closeModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box>
+                
+                  <Typography id="modal-modal-title" variant="h6" component="h2">
+                    <ModalCard post={post}/>
+                  </Typography>
+                </Box>
+              </Modal>
               <IconButton>
                 <DeleteIcon onClick={() => handleDelete(post.id)}/>
               </IconButton>
