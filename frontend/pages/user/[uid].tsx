@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useLayoutEffect, useState } from "react";
+import styles from '../../styles/Home.module.css';
 import ReviewCard from "../../Components/ReviewCard";
 import { Post, User } from "../../types/type";
 
@@ -35,8 +36,8 @@ export default function Users() {
     },[])
 
     return (
-        <div>
-            <p>{user.name}</p>
+        <div className={styles.personalPage}>
+            <p className={styles.userName}>{user.name}:投稿履歴</p>
             <br />
             <div>
                 <ul>
