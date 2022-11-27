@@ -35,7 +35,7 @@ export default function Post() {
     }
   }
   return (
-    <div style={{textAlign: "center", width:"100%", height:"100%",backgroundColor:"aquamarine"}}>
+    <div style={{textAlign: "center",minHeight:"100vh", width:"100%", height:"100%",backgroundColor:"aquamarine"}}>
       <h1 style={{padding: "50px 0"}}>Add New Post</h1>
       <Box
         component="div"

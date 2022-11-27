@@ -44,7 +44,7 @@ export default function Users() {
                     {
                         posts.map((post) => {
                             return (
-                                <li key={post.id}>
+                                <li key={post.id} style={{marginBottom:"20px"}}>
                                     <ReviewCard post={post} setPosts={setPosts} posts={posts}/>
                                 </li>
                             )

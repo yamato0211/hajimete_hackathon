@@ -81,6 +81,7 @@
 
 .personalPage{
   background-color: aquamarine;
+  padding-bottom: 30px;
 }
 
 @media (max-width: 600px) {
