@@ -140,9 +140,7 @@ func UpdatePost(content string, songUrl string, postId string) (update_post db.P
 	if err != nil {
 		return
 	}
-	update_post.Content = content
-	update_post.SongUrl = songUrl
-	err = db.Psql.Save(&update_post).Error
+	err = db.Psql.Model(&update_post).Updates(db.Post{Content: content, SongUrl: songUrl}).Error
 	if err != nil {
 		return
 	}
