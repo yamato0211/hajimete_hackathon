@@ -38,20 +38,17 @@ export default function Users() {
     return (
         <div className={`${styles.personalPage} ${styles.container}`} >
             <p className={styles.userName}>{user.name}:投稿履歴</p>
-            <br />
-            <div>
-                <ul className={styles.postsWrapper}>
-                    {
-                        posts.map((post) => {
-                            return (
-                                <li key={post.id} className={styles.cardWrapper}>
-                                    <ReviewCard post={post} setPosts={setPosts} posts={posts}/>
-                                </li>
-                            )
-                        })
-                    }
-                </ul>
-            </div>
+            <ul className={styles.postsWrapper}>
+                {
+                    posts.map((post) => {
+                        return (
+                            <li key={post.id} className={styles.cardWrapper}>
+                                <ReviewCard post={post} setPosts={setPosts} posts={posts}/>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
         </div>
     )
 }
