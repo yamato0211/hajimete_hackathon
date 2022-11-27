@@ -9,41 +9,19 @@ import {Post} from "../types/type"
 
 interface Props {
   post: Post
+  posts: Post[]
+  closeModal: () => void
+  setPosts: (x: Post[]) => void
 }
 
 // 関数の宣言の仕方
-export default function ModalCard({post}:Props) {
+export default function ModalCard({post,posts,closeModal,setPosts}:Props) {
   // const  router = useRouter()
   const [content, setContent] = useState<string>(post.content)
   const [putUrl, setPutUrl] = useState<string>(post.song_url)
 
   useEffect(() => {
     console.log(putUrl)
-    // async function handleOpen() {
-    //   const token = localStorage.getItem("token")
-    //       if(token){
-    //         await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/users/@me",{
-    //           headers: {
-    //             "Authorization": `Bearer ${token}`
-    //           }
-    //         })
-    //         .then((res) => {
-    //           localStorage.setItem("user_id", res.data.id)
-    //         })
-    //         .catch(e => console.log(e))
-    //         await axios.get("https://hajimete-hackathon-backend.onrender.com/api/v1/posts",{
-    //           headers: {
-    //             "Authorization": `Bearer ${token}`
-    //           }
-    //         })
-    //         .then(res => {
-    //           console.log(res.data)
-    //           setPutUrl(res.data)
-    //         })
-    //         .catch(e => console.log(e))
-    //       }
-    //   }
-    //   handleOpen()
   },[])
 
   const handleClose = async (post_id: string) => {
@@ -63,8 +41,15 @@ export default function ModalCard({post}:Props) {
         }
       })
       console.log(res.data)
-      // setContent("")
-      // setPutUrl("")
+      const copy_posts = [...posts]
+      copy_posts.map(p => {
+        if(p.id === post_id) {
+          p.content = content
+          p.song_url = putUrl
+        }
+      })
+      setPosts(posts)
+      closeModal()
     }catch (e){
       alert("更新に失敗しました。")
       console.log(e)
@@ -108,7 +93,7 @@ export default function ModalCard({post}:Props) {
         style={{width:"10%"}}
         size="large"
       >
-        Post!
+        Edit!
       </Button>
     </div>
   );

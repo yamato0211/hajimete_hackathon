@@ -71,7 +71,6 @@
 
 .headerStyle{
   width:100%;
-  background-color: aquamarine;
   display:"flex";
   justify-content:"space-around";
   position: fixed;
@@ -89,7 +88,6 @@
 }
 
 .personalPage{
-  padding-bottom: 30px;
   padding: 4.0rem;
 }
 

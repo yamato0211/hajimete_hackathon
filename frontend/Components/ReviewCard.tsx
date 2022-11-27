@@ -217,7 +217,7 @@ const ReviewCard = ({post,setPosts,posts}: Props) => {
                 <Box>
                 
                   <Typography id="modal-modal-title" variant="h6" component="h2">
-                    <ModalCard post={post}/>
+                    <ModalCard post={post} posts={posts} closeModal={closeModal} setPosts={setPosts}/>
                   </Typography>
                 </Box>
               </Modal>
