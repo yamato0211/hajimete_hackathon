@@ -134,3 +134,17 @@ func GetPostsByUserId(userId string) (ps []db.Post, err error) {
 	}
 	return
 }
+
+func updatePost(content string, songUrl string, postId string) (update_post db.Post, err error) {
+	err = db.Psql.Where(&update_post, "id = ?",  postId).Error
+	if err != nil {
+		return
+	}
+	update_post.Content = content
+	update_post.SongUrl = songUrl
+	err = db.Psql.Save(&update_post).Error
+	if err != nil {
+		return
+	}
+	return
+}
