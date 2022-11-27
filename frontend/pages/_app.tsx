@@ -44,28 +44,28 @@ export default function App({ Component, pageProps }: AppProps) {
       {
         router.pathname !== "/Signup" && router.pathname !== "/Signin" ?(
           <header 
-            style={{backgroundColor:"aquamarine", display:"flex",justifyContent:"space-around"}}
+            style={{backgroundColor:"#4D4D4D", display:"flex",justifyContent:"space-around"}}
           >
-            <h1>SoNgS</h1>
+            <h1 style={{color: "#EEEEEE"}}>SoNgS</h1>
             <div className={style.globalHeader}>
               <IconButton>
                 <Link href="/">
-                  <HomeIcon/>
+                  <HomeIcon style={{color: "#EEEEEE"}}/>
                 </Link>
               </IconButton>
               <IconButton onClick={goMyPage}>
                 <div>
-                  <PersonIcon/>
+                  <PersonIcon style={{color: "#EEEEEE"}}/>
                 </div>
               </IconButton>
               <IconButton>
                 <Link href="/post">
-                  <PostAddIcon/>
+                  <PostAddIcon style={{color: "#EEEEEE"}}/>
                 </Link>
               </IconButton>
               <IconButton onClick={handleLogout}>
                 <Link href="/Signup">
-                  <LogoutIcon/>
+                  <LogoutIcon style={{color: "#EEEEEE"}}/>
                 </Link>
               </IconButton>
             </div>
@@ -74,7 +74,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <></>
         )
       }
-
       <Component {...pageProps} />
     </>
   )

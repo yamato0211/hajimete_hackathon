@@ -36,7 +36,7 @@ export default function Users() {
     },[])
 
     return (
-        <div className={styles.personalPage}>
+        <div className={`${styles.personalPage} ${styles.container}`} >
             <p className={styles.userName}>{user.name}:投稿履歴</p>
             <br />
             <div>

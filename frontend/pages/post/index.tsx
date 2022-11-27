@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useRouter } from "next/router"
 import { useState, useLayoutEffect, useEffect } from 'react'
-import styles from '../styles/Home.module.css'
+import styles from '../../styles/Home.module.css'
 import { TextField } from "@mui/material"
 import {Box} from "@mui/material"
 import {Button} from "@mui/material"
@@ -35,8 +35,8 @@ export default function Post() {
     }
   }
   return (
-    <div style={{textAlign: "center",minHeight:"100vh", width:"100%", height:"100%",backgroundColor:"aquamarine"}}>
-      <h1 style={{padding: "50px 0"}}>Add New Post</h1>
+    <div className={styles.container} style={{textAlign: "center",minHeight:"100vh", width:"100%", height:"100%"}}>
+      <h1 style={{padding: "50px 0", color:"#EEEEEE"}}>Add New Post</h1>
       <Box
         component="div"
         sx={{
@@ -67,8 +67,7 @@ export default function Post() {
       </Box>
       <Button 
         onClick={handleSubmit} 
-        variant="outlined" 
-        style={{width:"10%"}}
+        style={{width:"10%", color:"#EEEEEE", background:"#EEEEEEE"}}
         size="large"
       >
         Post!
